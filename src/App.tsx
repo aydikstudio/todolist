@@ -11,13 +11,6 @@ function App() {
   const [footer_active_button, setFooterActiveButton] = React.useState<string>('all');
   const inputRef = React.useRef<any>('');
 
-  const enterInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    let text = e.target.value;
-
-    setInput(text)
-
-  }
 
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -71,10 +64,10 @@ function App() {
         <div className="todos_block">
           <div className="todos-input">
             <div className="todos-input-action">
-              {show ? <i class="fa fa-arrow-down" aria-hidden="true" onClick={() => setShow(false)}></i> : <i class="fa fa-arrow-up" aria-hidden="true" onClick={() => setShow(true)} ></i>}
+              {show ? <i className="fa fa-arrow-down" aria-hidden="true" onClick={() => setShow(false)}></i> : <i className="fa fa-arrow-up" aria-hidden="true" onClick={() => setShow(true)} ></i>}
             </div>
 
-            <input placeholder="Whats needs to be done?" value={input} className="todos-input-input" onKeyDown={(e) => onKeyDown(e)} ref={inputRef} className="todos-input-input" contenteditable="true" onInput={(e) => enterInput(e)} />
+            <input placeholder="Whats needs to be done?" value={input} className="todos-input-input" onKeyDown={(e) => onKeyDown(e)} ref={inputRef}  onChange={(e) =>  setInput(e.target.value)} />
           </div>
           <div className="todos_list">
 
@@ -95,7 +88,7 @@ function App() {
                 <div key={item.id} className="todos_item">
 
                   <div className="todos-input-action">
-                    {item.status == 'active' ? <i class="fa fa-minus-circle" aria-hidden="true" onClick={() => onChangeStatus(item.id)}></i> : <i class="fa fa-check-circle" aria-hidden="true" onClick={() => onChangeStatus(item.id)}></i>}
+                    {item.status == 'active' ? <i className="fa fa-minus-circle" aria-hidden="true" onClick={() => onChangeStatus(item.id)}></i> : <i className="fa fa-check-circle" aria-hidden="true" onClick={() => onChangeStatus(item.id)}></i>}
                   </div>
                   <div className="todos-text" style={item.status == 'completed' ? { textDecoration: 'line-through', color: '#cbcbcb' } : {}}>
                     {item.title}
