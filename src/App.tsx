@@ -1,11 +1,7 @@
 import * as React from 'react'
 import './App.scss'
+import { addNewObj, getStatus, IList } from './utils';
 
-interface IList {
-  id: number,
-  title: string,
-  status: string
-}
 
 function App() {
 
@@ -28,11 +24,7 @@ function App() {
     if (e.key === 'Enter') {
 
       if (input.length > 0) {
-        let list_obj = {
-          id: Date.now(),
-          title: input,
-          status: 'active'
-        }
+        let list_obj = addNewObj(input);
 
 
         setList([list_obj, ...list])
@@ -48,12 +40,8 @@ function App() {
     let updatedList = list.map(item => {
       if (item.id == id) {
 
-        let status_new;
-        if (item.status == 'active') {
-          status_new = 'completed'
-        } else {
-          status_new = 'active'
-        }
+        let status_new = getStatus(item.status);
+        
         return { ...item, status: status_new };
       }
       return item;
@@ -83,7 +71,7 @@ function App() {
         <div className="todos_block">
           <div className="todos-input">
             <div className="todos-input-action">
-              {show ? <i class="fa fa-arrow-down" aria-hidden="true" onClick={(e) => setShow(false)}></i> : <i class="fa fa-arrow-up" aria-hidden="true" onClick={(e) => setShow(true)} ></i>}
+              {show ? <i class="fa fa-arrow-down" aria-hidden="true" onClick={() => setShow(false)}></i> : <i class="fa fa-arrow-up" aria-hidden="true" onClick={() => setShow(true)} ></i>}
             </div>
 
             <input placeholder="Whats needs to be done?" value={input} className="todos-input-input" onKeyDown={(e) => onKeyDown(e)} ref={inputRef} className="todos-input-input" contenteditable="true" onInput={(e) => enterInput(e)} />
@@ -107,7 +95,7 @@ function App() {
                 <div key={item.id} className="todos_item">
 
                   <div className="todos-input-action">
-                    {item.status == 'active' ? <i class="fa fa-minus-circle" aria-hidden="true" onClick={(e) => onChangeStatus(item.id)}></i> : <i class="fa fa-check-circle" aria-hidden="true" onClick={(e) => onChangeStatus(item.id)}></i>}
+                    {item.status == 'active' ? <i class="fa fa-minus-circle" aria-hidden="true" onClick={() => onChangeStatus(item.id)}></i> : <i class="fa fa-check-circle" aria-hidden="true" onClick={() => onChangeStatus(item.id)}></i>}
                   </div>
                   <div className="todos-text" style={item.status == 'completed' ? { textDecoration: 'line-through', color: '#cbcbcb' } : {}}>
                     {item.title}
@@ -122,17 +110,17 @@ function App() {
               {list.filter((item) => item.status == 'active').length} items left
             </div>
             <div className="footer-actions">
-              <div className={`${footer_active_button == 'all' ? 'active' : ''}`} onClick={(e) => setFooterActiveButton('all')}>
+              <div className={`${footer_active_button == 'all' ? 'active' : ''}`} onClick={() => setFooterActiveButton('all')}>
                 all
               </div>
-              <div className={`${footer_active_button == 'active' ? 'active' : ''}`} onClick={(e) => setFooterActiveButton('active')}>
+              <div className={`${footer_active_button == 'active' ? 'active' : ''}`} onClick={() => setFooterActiveButton('active')}>
                 active
               </div>
-              <div className={`${footer_active_button == 'completed' ? 'active' : ''}`} onClick={(e) => setFooterActiveButton('completed')}>
+              <div className={`${footer_active_button == 'completed' ? 'active' : ''}`} onClick={() => setFooterActiveButton('completed')}>
                 completed
               </div>
             </div>
-            <div className="clear" onClick={(e) => clearCompleted()}>
+            <div className="clear" onClick={() => clearCompleted()}>
               clear completed
             </div>
           </div>
